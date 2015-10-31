@@ -21,6 +21,7 @@ solicitan al usuario (nombre y director). */
 		String nombreEquipo=tec.nextLine();
 		System.out.println("Introduzca el nombre del director del nuevo equipo a crear");
 		String nombreDirector=tec.nextLine();
+		tec.close();
 		
 		Equipo e1=new Equipo(nombreEquipo, nombreDirector);
 		
