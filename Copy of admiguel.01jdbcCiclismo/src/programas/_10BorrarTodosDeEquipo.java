@@ -8,7 +8,7 @@ import excepciones.BusinessException;
 import jdbc.ConexionJdbc;
 import pojos.Ciclista;
 
-public class _10BiorrarTodosDeEquipo {
+public class _10BorrarTodosDeEquipo {
 	public static void main(String[] args) {
 
 		Scanner tec = new Scanner(System.in);
