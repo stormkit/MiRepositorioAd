@@ -2,11 +2,15 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import excepciones.BusinessException;
 import jdbc.ConexionJdbc;
+import pojos.Ciclista;
 import pojos.Equipo;
 
 public class DaoEquipo implements InterfaceDaoGenerico<Equipo, Integer>{
@@ -113,8 +117,36 @@ solicitan al usuario (nombre y director).
 
 	@Override
 	public List<Equipo> buscarTodos() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+	
+    public List<Ciclista> buscarTodos(Equipo e){
+	
+	    List<Ciclista>l=new ArrayList<>();
+	
+	    Connection con=ConexionJdbc.getConnection();
+	    ResultSet rs=null;
+	    Ciclista c=null;
+	    try {
+			PreparedStatement pstm=con.prepareStatement("select * from ciclista where nomeq=?");
+			pstm.setString(1, e.getNomeq());
+			rs=pstm.executeQuery();
+			while(rs.next()){
+			c=new Ciclista(rs.getInt("dorsal"), rs.getString("nombre"),rs.getString("nomeq"), rs.getDate("nacimiento"));
+			l.add(c);
+				
+			}
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+	return l;
+	
+}
+  
+
+
 
 }
