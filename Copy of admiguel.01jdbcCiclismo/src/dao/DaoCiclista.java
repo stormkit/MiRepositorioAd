@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -222,5 +223,87 @@ public class DaoCiclista implements InterfaceDaoGenerico<Ciclista, Integer> {
 			ConexionJdbc.cerrar();
 		}
 		
+	}
+	
+	public List<Ciclista> getCiclistasPorNombreYNacimiento(String textoNombre, Date fechaI, Date fechaF){
+		
+		List<Ciclista>l=new ArrayList<>();;
+
+		try{
+			
+		
+		Connection con=ConexionJdbc.getConnection();
+		Boolean autocomit=ConexionJdbc.getAutoCommit();
+		PreparedStatement pstm=null;
+		ResultSet rs=null;
+		ConexionJdbc.setAutoCommit(false);
+		String sql="Select * from ciclista where 1=1";
+		
+		if(textoNombre != null){
+			
+			sql += " and nombre like ?";
+		}
+		
+		if(fechaI != null){
+			
+			sql += " and nacimiento >= ?";
+		}
+		if(fechaF != null){
+			
+			sql += " and nacimiento <= ?";
+		}
+		
+		int numParam=1;
+		if(textoNombre != null){
+			
+			
+				
+	    pstm.setString(numParam, "%"+textoNombre+"%");
+			
+			
+		}
+		
+        if(textoNombre != null){
+			
+				pstm.setString(numParam, textoNombre);
+				numParam++;
+			
+		}
+        if(fechaI != null){
+			
+			pstm.setDate(numParam, (Date) fechaI);
+			numParam++;
+		
+	}
+        if(fechaF != null){
+			
+    			pstm.setDate(numParam, (Date) fechaF);
+    			numParam++;
+    		
+    	}
+	
+			pstm=con.prepareStatement(sql);
+			rs=pstm.executeQuery();
+			
+            Ciclista c=null;
+			while (rs.next()){
+				c=new Ciclista(rs.getInt("dorsal"),rs.getString("nombre"), rs.getString("nomeq"),rs.getDate("nacimiento"));
+				l.add(c);
+				
+			}
+			
+			ConexionJdbc.commit();
+		} catch (SQLException e) {
+
+			ConexionJdbc.rollback();
+			e.printStackTrace();
+			throw new RuntimeException ("No se han podido añadir los ciclistas");
+		}
+		
+		
+		
+		
+		
+		return l;
 	}
 }
