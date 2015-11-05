@@ -145,6 +145,59 @@ solicitan al usuario (nombre y director).
 	return l;
 	
 }
+    
+    public void anyadirEquipo(Equipo e, List<Ciclista>miembros) throws BusinessException{
+    	
+    	Connection con=ConexionJdbc.getConnection();
+    	
+    	Boolean autocomit=ConexionJdbc.getAutoCommit();
+    	
+    	ConexionJdbc.setAutoCommit(false);
+    	
+    	
+    	PreparedStatement pstm=null;
+    	
+    	String sql="insert into equipo (nomeq, director) values (?,?)";
+    	
+    
+    	try {
+    		
+			pstm=con.prepareStatement(sql);
+			
+			pstm.setString(1, e.getNomeq());
+			pstm.setString(2, e.getDirector());
+			
+			pstm.executeUpdate();
+			
+			
+			for (Ciclista o : miembros){
+				
+				DaoCiclista dao1=new DaoCiclista();
+				dao1.grabar(o);
+				
+			}
+			
+			
+			ConexionJdbc.commit();
+			
+		} catch (SQLException e1) {
+			
+            ConexionJdbc.rollback();
+			e1.printStackTrace();
+			throw new BusinessException("No se ha podido insertar el equipo o los ciclistas de ese equipo");
+			
+		} catch(BusinessException e1){
+			ConexionJdbc.rollback();
+			throw new BusinessException("No se ha podido insertar el equipo o los ciclistas de ese equipo");
+
+		}
+    	finally{
+    		ConexionJdbc.setAutoCommit(autocomit);
+    	}
+    	
+    	
+    	
+    }
   
 
 
