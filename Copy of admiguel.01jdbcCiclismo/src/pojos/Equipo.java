@@ -1,8 +1,22 @@
 package pojos;
 
-public class Equipo {
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Equipo") // No es necesaria si es el mismo nombre el del pojo que el de la tabla
+
+public class Equipo implements Serializable{
+
+	@Id
+	@Column (name = "nomeq") // No es necesaria
 	private String nomeq;
+	
+	@Column (name="director")//No es necesaria
 	private String director;
 	
 	public Equipo(){
