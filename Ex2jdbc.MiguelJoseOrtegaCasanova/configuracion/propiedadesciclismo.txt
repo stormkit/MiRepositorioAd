@@ -1,0 +1,5 @@
+# Propiedades para la conexion a base de datos test
+driverClassName=com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost:3306/ciclismo
+username=root
+password=
