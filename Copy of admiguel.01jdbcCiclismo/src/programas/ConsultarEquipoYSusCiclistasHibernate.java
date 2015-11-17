@@ -6,9 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import hibernate.UtilesHibernate;
+import pojos.Ciclista;
 import pojos.Equipo;
 
-public class ConsultarEquipoHibernate {
+public class ConsultarEquipoYSusCiclistasHibernate {
 
 	public static void main(String[] args) {
 
@@ -21,7 +22,13 @@ public class ConsultarEquipoHibernate {
 		Session s=sf.getCurrentSession();
 		s.beginTransaction();
 		Equipo e=(Equipo) s.get(Equipo.class, nombreEquipo);
-		if (e != null){System.out.println("el director es " + e.getDirector());}
+		if (e != null){System.out.println("el director es " + e.getDirector());
+		System.out.println("cliclistas de este equipo");
+		
+		for(Ciclista c: e.getMiembros()){
+			
+			System.out.println(c.toString());
+		}}
 		s.getTransaction().commit();
 		
 	}

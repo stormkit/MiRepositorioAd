@@ -1,10 +1,13 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +22,16 @@ public class Equipo implements Serializable{
 	@Column (name="director")//No es necesaria
 	private String director;
 	
+	@OneToMany (mappedBy = "equipo", fetch=FetchType.LAZY) // equipo es el atributo de la clase ciclista donde se encuentra la info de la relación
+	//@OneToMany (mappedBy = "equipo", fetch=FetchType.EAGER)  cargas en memoria ansiosas o perezosas
+	private List<Ciclista>miembros;
+	
+	public List<Ciclista> getMiembros() {
+		return miembros;
+	}
+	public void setMiembros(List<Ciclista> miembros) {
+		this.miembros = miembros;
+	}
 	public Equipo(){
 		
 	}

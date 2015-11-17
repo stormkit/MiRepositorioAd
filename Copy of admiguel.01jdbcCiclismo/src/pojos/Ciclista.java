@@ -1,23 +1,47 @@
 package pojos;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Ciclista {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity 
+@Table (name = "ciclista")
+
+public class Ciclista implements Serializable{
+	
+	@Id
+	@Column (name="dorsal")
+	@GeneratedValue (strategy =GenerationType.AUTO)
 	private Integer dorsal;
+	
+	@Column (name="nombre")
 	private String nombre;
-	private String nomeq;
+	
+	/*
+	@Column (name="nomeq")
+	private String nomeq;*/
+	
+	@ManyToOne (fetch=FetchType.LAZY)
+	@JoinColumn (name="nomeq") // nomeq es el nombre de la tabla que actua como clave ajena
+	private Equipo equipo;
+	
+	@Column (name="nacimiento")
 	private Date nacimiento;
 	
 	public Ciclista(){
 		
 	}
 
-	public Ciclista(Integer dorsal, String nombre, String nomeq, Date nacimiento) {
-		this.dorsal = dorsal;
-		this.nombre = nombre;
-		this.nomeq = nomeq;
-		this.nacimiento = nacimiento;
-	}
+	
 
 	public Integer getDorsal() {
 		return dorsal;
@@ -35,12 +59,12 @@ public class Ciclista {
 		this.nombre = nombre;
 	}
 
-	public String getNomeq() {
-		return nomeq;
+	public Equipo getEquipo() {
+		return equipo;
 	}
 
-	public void setNomeq(String nomeq) {
-		this.nomeq = nomeq;
+	public void setEquipo(Equipo equipo) {
+		this.equipo = equipo;
 	}
 
 	public Date getNacimiento() {
@@ -78,7 +102,7 @@ public class Ciclista {
 
 	@Override
 	public String toString() {
-		return "Ciclista [dorsal=" + dorsal + ", nombre=" + nombre + ", nomeq=" + nomeq + ", nacimiento=" + nacimiento
+		return "Ciclista [dorsal=" + dorsal + ", nombre=" + nombre + ", nacimiento=" + nacimiento
 				+ "]";
 	}
 	
